@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Image,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -19,6 +20,8 @@ import { Loading } from '../../components/ui/Loading';
 import { Icon } from '../../components/ui/Icon';
 import { DebugPanel } from '../../components/DebugPanel';
 import { useServer } from '../../context/ServerContext';
+
+const dashyWordmark = require('../../../assets/dashy-wordmark.png');
 
 export const ServerUrlScreen: React.FC = () => {
   const { t } = useTranslation();
@@ -63,9 +66,7 @@ export const ServerUrlScreen: React.FC = () => {
           keyboardShouldPersistTaps="handled"
         >
           <View style={styles.logo}>
-            <View style={styles.logoCircle}>
-              <Icon name="widgets" size={40} color={Colors.onPrimary} />
-            </View>
+            <Image source={dashyWordmark} style={styles.logoImage} />
             <Text variant="displayLg" color={Colors.primary} style={{ marginTop: 16 }}>
               {t('onboarding.dashy')}
             </Text>
@@ -146,18 +147,10 @@ const getStyles = (Colors: ColorPalette) => StyleSheet.create({
     alignItems: 'center',
     marginBottom: 40,
   },
-  logoCircle: {
-    width: 80,
-    height: 80,
-    borderRadius: Radius.xl,
-    backgroundColor: Colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: Colors.primaryContainer,
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.35,
-    shadowRadius: 16,
-    elevation: 8,
+  logoImage: {
+    width: 180,
+    height: 60,
+    resizeMode: 'contain',
   },
   form: {
     backgroundColor: 'rgba(255,255,255,0.8)',

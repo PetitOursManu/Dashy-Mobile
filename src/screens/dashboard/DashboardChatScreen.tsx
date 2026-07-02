@@ -231,7 +231,7 @@ export const DashboardChatScreen: React.FC = () => {
       />
 
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboard}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
       >

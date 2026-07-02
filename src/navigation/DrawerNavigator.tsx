@@ -90,7 +90,7 @@ function DrawerItem({
   );
 }
 
-function DrawerContent(props: DrawerContentComponentProps) {
+const DrawerContent = React.memo(function DrawerContent(props: DrawerContentComponentProps) {
   const { t } = useTranslation();
   const Colors = useColors();
   const { logout, user } = useAuth();
@@ -151,7 +151,7 @@ function DrawerContent(props: DrawerContentComponentProps) {
       </TouchableOpacity>
     </DrawerContentScrollView>
   );
-}
+});
 
 export const DrawerNavigator: React.FC = () => {
   const Colors = useColors();
@@ -164,11 +164,11 @@ export const DrawerNavigator: React.FC = () => {
       screenOptions={{
         headerShown: false,
         drawerType: 'slide',
+        overlayColor: 'rgba(28, 28, 26, 0.4)',
         drawerStyle: {
           width: 280,
           backgroundColor: Colors.surfaceContainerLowest,
         },
-        overlayColor: 'rgba(28, 28, 26, 0.4)',
       }}
     >
       <Drawer.Screen name="Dashboard" component={DashboardTabNavigator} />

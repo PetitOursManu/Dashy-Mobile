@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Radius } from '../../theme/tokens';
 import { useColors } from '../../theme/ThemeContext';
 import { ColorPalette } from '../../theme/colors';
-import { Icon } from '../../components/ui/Icon';
 import { Loading } from '../../components/ui/Loading';
+
+const dashyLogo = require('../../../assets/icon.png');
 
 export const SplashScreen: React.FC = () => {
   const { t } = useTranslation();
@@ -23,9 +23,7 @@ export const SplashScreen: React.FC = () => {
         style={StyleSheet.absoluteFill}
       />
       <View style={styles.content}>
-        <View style={styles.logoCircle}>
-          <Icon name="widgets" size={48} color={Colors.onPrimary} />
-        </View>
+        <Image source={dashyLogo} style={styles.logo} />
         <Loading message={t('auth.startingDashy')} />
       </View>
     </SafeAreaView>
@@ -42,18 +40,9 @@ const getStyles = (Colors: ColorPalette) => StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  logoCircle: {
+  logo: {
     width: 96,
     height: 96,
-    borderRadius: Radius.xl,
-    backgroundColor: Colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
     marginBottom: 24,
-    shadowColor: Colors.primaryContainer,
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.35,
-    shadowRadius: 16,
-    elevation: 8,
   },
 });

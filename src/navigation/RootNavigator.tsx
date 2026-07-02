@@ -9,6 +9,7 @@ import { DrawerNavigator } from './DrawerNavigator';
 import { WebViewScreen } from '../screens/WebViewScreen';
 import { useServer } from '../context/ServerContext';
 import { useAuth } from '../context/AuthContext';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export type AuthStackParamList = {
   Login: undefined;
@@ -83,21 +84,23 @@ export const RootNavigator: React.FC = () => {
   }
 
   return (
-    <NavigationContainer ref={navigationRef}>
-      <RootStack.Navigator
-        screenOptions={{ headerShown: false }}
-        initialRouteName={initialRoute}
-      >
-        <RootStack.Screen name="Splash" component={SplashScreen} />
-        <RootStack.Screen name="Onboarding" component={OnboardingNavigator} />
-        <RootStack.Screen name="Auth" component={AuthNavigator} />
-        <RootStack.Screen name="Main" component={DrawerNavigator} />
-        <RootStack.Screen
-          name="WebView"
-          component={WebViewScreen}
-          options={{ presentation: 'fullScreenModal' }}
-        />
-      </RootStack.Navigator>
-    </NavigationContainer>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <NavigationContainer ref={navigationRef}>
+        <RootStack.Navigator
+          screenOptions={{ headerShown: false }}
+          initialRouteName={initialRoute}
+        >
+          <RootStack.Screen name="Splash" component={SplashScreen} />
+          <RootStack.Screen name="Onboarding" component={OnboardingNavigator} />
+          <RootStack.Screen name="Auth" component={AuthNavigator} />
+          <RootStack.Screen name="Main" component={DrawerNavigator} />
+          <RootStack.Screen
+            name="WebView"
+            component={WebViewScreen}
+            options={{ presentation: 'fullScreenModal' }}
+          />
+        </RootStack.Navigator>
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 };
