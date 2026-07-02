@@ -19,6 +19,8 @@ import { useServer } from '../context/ServerContext';
 import { useSync } from '../context/SyncContext';
 import { Icon } from '../components/ui/Icon';
 import { Text } from '../components/ui/Text';
+import { Avatar } from '../components/ui/Avatar';
+import { useImageAuth } from '../hooks/useImageAuth';
 import { useColors } from '../theme/ThemeContext';
 import { Radius, Spacing } from '../theme/tokens';
 
@@ -96,6 +98,7 @@ const DrawerContent = React.memo(function DrawerContent(props: DrawerContentComp
   const { logout, user } = useAuth();
   const { isStaff } = useSync();
   const { serverInfo } = useServer();
+  const avatarSource = useImageAuth(user?.hasAvatar ? `/api/auth/avatar/${user.id}` : null);
   const activeRoute = props.state.routes[props.state.index].name as keyof DrawerParamList;
 
   const handleLogout = async () => {
@@ -109,14 +112,16 @@ const DrawerContent = React.memo(function DrawerContent(props: DrawerContentComp
       contentContainerStyle={[styles.container, { backgroundColor: Colors.surfaceContainerLowest }]}
     >
       <View style={styles.header}>
-        <View style={[styles.avatarCircle, { backgroundColor: Colors.primaryContainer }]}>
-          <Icon name="widgets" size={28} color={Colors.onPrimary} />
-        </View>
+        <Avatar
+          uri={avatarSource?.uri}
+          initials={(user?.nickname || user?.email || 'U').slice(0, 2)}
+          size={56}
+        />
         <Text variant="headlineSection" color={Colors.onSurface} style={{ marginTop: 12 }}>
-          Dashy
+          {user?.nickname || user?.email || t('common.user')}
         </Text>
         <Text variant="bodyBase" color={Colors.onSurfaceVariant}>
-          {user?.nickname || user?.email || t('common.user')}
+          {user?.role || 'Dashy'}
         </Text>
       </View>
 

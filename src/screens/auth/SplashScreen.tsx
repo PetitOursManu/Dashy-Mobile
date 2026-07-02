@@ -39,6 +39,7 @@ const getStyles = (Colors: ColorPalette) => StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingBottom: 80,
   },
   logo: {
     width: 96,
