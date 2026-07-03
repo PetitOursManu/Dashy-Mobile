@@ -7,7 +7,7 @@ import { useColors } from '../../theme/ThemeContext';
 import { ColorPalette } from '../../theme/colors';
 import { Loading } from '../../components/ui/Loading';
 
-const dashyLogo = require('../../../assets/icon.png');
+const dashyLogo = require('../../../assets/splash-logo.png');
 
 export const SplashScreen: React.FC = () => {
   const { t } = useTranslation();
@@ -39,11 +39,10 @@ const getStyles = (Colors: ColorPalette) => StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 80,
   },
   logo: {
-    width: 96,
-    height: 96,
-    marginBottom: 24,
+    width: 120,
+    height: 120,
+    marginBottom: 48,
   },
 });
