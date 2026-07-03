@@ -23,7 +23,9 @@ export const SplashScreen: React.FC = () => {
         style={StyleSheet.absoluteFill}
       />
       <View style={styles.content}>
-        <Image source={dashyLogo} style={styles.logo} />
+        <View style={styles.logoWrapper}>
+          <Image source={dashyLogo} style={styles.logo} />
+        </View>
         <Loading message={t('auth.startingDashy')} />
       </View>
     </SafeAreaView>
@@ -40,9 +42,13 @@ const getStyles = (Colors: ColorPalette) => StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  logoWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   logo: {
     width: 120,
     height: 120,
-    marginBottom: 48,
   },
 });

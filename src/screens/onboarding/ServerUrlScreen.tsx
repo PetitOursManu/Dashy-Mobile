@@ -67,7 +67,7 @@ export const ServerUrlScreen: React.FC = () => {
         >
           <View style={styles.logo}>
             <Image source={dashyWordmark} style={styles.logoImage} />
-            <Text variant="bodyBase" color={Colors.onSurfaceVariant} style={{ marginTop: 16 }}>
+            <Text variant="bodyBase" color={Colors.onSurfaceVariant} style={{ marginTop: 16, textAlign: 'center' }}>
               {t('onboarding.connectToServer')}
             </Text>
           </View>
