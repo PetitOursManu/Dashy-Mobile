@@ -39,12 +39,13 @@ jobs:
       - name: Rename APK with version
         run: |
           VERSION=${GITHUB_REF_NAME#v}
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
           mkdir -p artifacts
           cp android/app/build/outputs/apk/debug/app-debug.apk artifacts/DashyMobile-v${VERSION}-arm64-v8a.apk
 
       - name: Upload APK to release
         uses: softprops/action-gh-release@v2
         with:
-          files: artifacts/DashyMobile-v${VERSION}-arm64-v8a.apk
+          files: artifacts/DashyMobile-v${{ env.VERSION }}-arm64-v8a.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
