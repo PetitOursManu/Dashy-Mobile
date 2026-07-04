@@ -1,26 +1,33 @@
 import React from 'react';
 import { View, ViewStyle, StyleProp } from 'react-native';
-import { Image } from 'expo-image';
+import { Image, ImageSource } from 'expo-image';
 import { Radius, Typography } from '../../theme/tokens';
 import { useColors } from '../../theme/ThemeContext';
 import { Text } from './Text';
 
 interface Props {
-  uri?: string | null;
+  source?: ImageSource | string | null;
   initials?: string;
   size?: number;
   style?: StyleProp<ViewStyle>;
 }
 
 export const Avatar: React.FC<Props> = ({
-  uri,
+  source,
   initials,
   size = 48,
   style,
 }) => {
   const Colors = useColors();
-  const fallbackBg = uri ? Colors.surfaceVariant : Colors.secondaryContainer;
-  const textColor = uri ? Colors.onSurface : Colors.onSecondaryContainer;
+  const hasSource = !!source;
+  const fallbackBg = hasSource ? Colors.surfaceVariant : Colors.secondaryContainer;
+  const textColor = hasSource ? Colors.onSurface : Colors.onSecondaryContainer;
+
+  const imageSource: ImageSource | undefined = React.useMemo(() => {
+    if (!source) return undefined;
+    if (typeof source === 'string') return { uri: source };
+    return source;
+  }, [source]);
 
   return (
     <View
@@ -39,9 +46,9 @@ export const Avatar: React.FC<Props> = ({
         style,
       ]}
     >
-      {uri ? (
+      {imageSource ? (
         <Image
-          source={{ uri }}
+          source={imageSource}
           style={{ width: size, height: size }}
           contentFit="cover"
           transition={200}

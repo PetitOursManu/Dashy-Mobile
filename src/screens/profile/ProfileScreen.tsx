@@ -75,9 +75,9 @@ export const ProfileScreen: React.FC = () => {
         <Card padding="lg" style={styles.profileCard}>
           <View style={styles.profileRow}>
             <Avatar
-              uri={avatarSource?.uri}
+              source={avatarSource}
               initials={(user?.nickname || user?.email || 'U').slice(0, 2)}
-              size={64}
+              size={96}
             />
             <View style={{ marginLeft: 16, flex: 1 }}>
               <Text variant="headlineSection" color={Colors.onSurface}>

@@ -113,7 +113,7 @@ const DrawerContent = React.memo(function DrawerContent(props: DrawerContentComp
     >
       <View style={styles.header}>
         <Avatar
-          uri={avatarSource?.uri}
+          source={avatarSource}
           initials={(user?.nickname || user?.email || 'U').slice(0, 2)}
           size={56}
         />
