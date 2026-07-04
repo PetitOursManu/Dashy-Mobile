@@ -40,7 +40,7 @@ export const ProfileScreen: React.FC = () => {
   const navigation = useNavigation<NativeStackNavigationProp<SettingsStackParamList>>();
   const { user, logout } = useAuth();
   const { sync } = useSync();
-  const avatarSource = useImageAuth(user?.hasAvatar ? `/api/auth/avatar/${user.id}` : null);
+  const avatarSource = useImageAuth(user?.hasAvatar ? '/api/mobile/v1/avatar' : null);
 
   const MenuItem: React.FC<MenuItemProps> = ({ icon, label, onPress, danger }) => {
     return (

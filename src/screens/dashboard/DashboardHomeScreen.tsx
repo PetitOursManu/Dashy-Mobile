@@ -15,13 +15,12 @@ import { useAuth } from '../../context/AuthContext';
 import { useSync } from '../../context/SyncContext';
 import { Text } from '../../components/ui/Text';
 import { Card } from '../../components/ui/Card';
-import { Avatar } from '../../components/ui/Avatar';
+
 import { Badge } from '../../components/ui/Badge';
 import { AppGrid } from '../../components/AppGrid';
 import { Button } from '../../components/ui/Button';
 import { Loading } from '../../components/ui/Loading';
 import { EmptyState } from '../../components/ui/EmptyState';
-import { useImageAuth } from '../../hooks/useImageAuth';
 import { useColors } from '../../theme/ThemeContext';
 import { DrawerMenuButton } from '../../components/DrawerMenuButton';
 import { AnimatedFadeIn } from '../../components/AnimatedFadeIn';
@@ -36,7 +35,6 @@ export const DashboardHomeScreen: React.FC = () => {
   const { user } = useAuth();
   const { sync, isLoading, refresh, isStaff } = useSync();
   const { width } = useWindowDimensions();
-  const avatarSource = useImageAuth(user?.hasAvatar ? `/api/auth/avatar/${user.id}` : null);
 
   if (!sync && isLoading) {
     return <Loading message={t('dashboard.loadingDashboard')} />;
@@ -76,11 +74,6 @@ export const DashboardHomeScreen: React.FC = () => {
               </Text>
               {user && <Badge label={user.role} variant="primary" style={{ marginTop: 6 }} />}
             </View>
-            <Avatar
-              uri={avatarSource?.uri}
-              initials={(user?.nickname || user?.email || 'U').slice(0, 2)}
-              size={52}
-            />
           </View>
         </AnimatedFadeIn>
 

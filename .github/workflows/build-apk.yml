@@ -34,20 +34,65 @@ jobs:
       - name: Prebuild Android project
         run: npx expo prebuild --platform android
 
-      - name: Build debug APK
-        working-directory: android
-        run: ./gradlew assembleDebug --no-daemon
+      - name: Decode keystore
+        working-directory: android/app
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > dashy-upload.keystore
 
-      - name: Rename APK with version
+      - name: Configure signing and ABI split
+        working-directory: android/app
+        run: |
+          cat >> build.gradle <<'EOF'
+
+          android {
+              signingConfigs {
+                  release {
+                      storeFile file("dashy-upload.keystore")
+                      storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
+                      keyAlias System.getenv("ANDROID_KEY_ALIAS")
+                      keyPassword System.getenv("ANDROID_KEY_PASSWORD")
+                  }
+              }
+              buildTypes {
+                  release {
+                      signingConfig signingConfigs.release
+                  }
+              }
+              splits {
+                  abi {
+                      enable true
+                      reset()
+                      include "arm64-v8a", "armeabi-v7a", "x86_64"
+                      universalApk false
+                  }
+              }
+          }
+          EOF
+
+      - name: Build release APKs
+        working-directory: android
+        env:
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: ./gradlew assembleRelease --no-daemon
+
+      - name: Rename APKs with version
         run: |
           VERSION=${GITHUB_REF_NAME#v}
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
           mkdir -p artifacts
-          cp android/app/build/outputs/apk/debug/app-debug.apk artifacts/DashyMobile-v${VERSION}-arm64-v8a.apk
+          for apk in android/app/build/outputs/apk/release/*.apk; do
+            filename=$(basename "$apk")
+            # filename looks like: app-arm64-v8a-release.apk
+            abi=$(echo "$filename" | sed -E 's/app-(.+)-release\.apk/\1/')
+            cp "$apk" "artifacts/DashyMobile-v${VERSION}-${abi}.apk"
+          done
+          ls -lh artifacts
 
-      - name: Upload APK to release
+      - name: Upload APKs to release
         uses: softprops/action-gh-release@v2
         with:
-          files: artifacts/DashyMobile-v${{ env.VERSION }}-arm64-v8a.apk
+          files: artifacts/*.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

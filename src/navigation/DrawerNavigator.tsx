@@ -98,7 +98,7 @@ const DrawerContent = React.memo(function DrawerContent(props: DrawerContentComp
   const { logout, user } = useAuth();
   const { isStaff } = useSync();
   const { serverInfo } = useServer();
-  const avatarSource = useImageAuth(user?.hasAvatar ? `/api/auth/avatar/${user.id}` : null);
+  const avatarSource = useImageAuth(user?.hasAvatar ? '/api/mobile/v1/avatar' : null);
   const activeRoute = props.state.routes[props.state.index].name as keyof DrawerParamList;
 
   const handleLogout = async () => {
